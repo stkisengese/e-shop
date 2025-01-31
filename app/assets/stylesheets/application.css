@@ -8,3 +8,28 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+.notice {
+padding: 1rem;
+margin-bottom: 1rem;
+background-color: #d1e7dd;
+border: 1px solid #badbcc;
+}
+
+.alert {
+padding: 1rem;
+margin-bottom: 1rem;
+background-color: #f8d7da;
+border: 1px solid #f5c2c7;
+}
+
+.nav-links {
+display: flex;
+gap: 1rem;
+align-items: center;
+}
+
+nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
