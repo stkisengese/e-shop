@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
   belongs_to :user
+  # Added image attached to products
+  has_one_attached :image  
 
   # Validations
   validates :title, presence: true
