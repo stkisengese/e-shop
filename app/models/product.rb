@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   belongs_to :user
   # Added image attached to products
   has_one_attached :image  
+  has_many :line_items, dependent: :destroy
 
   # Validations
   validates :title, presence: true
