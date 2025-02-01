@@ -13,6 +13,11 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  resource :cart, only: [:show, :destroy] do
+    post 'add_item/:product_id', to: 'carts#add_item', as: 'add_item'
+    delete 'remove_item/:product_id', to: 'carts#remove_item', as: 'remove_item'
+    delete 'empty', to: 'carts#empty_cart', as: 'empty'
+  end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
