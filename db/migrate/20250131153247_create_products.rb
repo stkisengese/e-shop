@@ -12,5 +12,9 @@ class CreateProducts < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
+
+    add_index :products, :brand
+    add_index :products, :condition
+    add_index :products, :price
   end
 end
