@@ -82,5 +82,6 @@ class ProductsController < ApplicationController
   def authorize_user
     unless @product.user == current_user
       redirect_to products_path, alert: "You are not authorized to perform this action."
+    end
   end
 end
