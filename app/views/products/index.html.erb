@@ -4,7 +4,23 @@
 
 <h1>Products</h1>
 
-<div id="products">
+<% @products.each do |product| %>
+  <div>
+    <h2><%= link_to product.title, product %></h2>
+    <p><%= product.description %></p>
+    <p>Price: <%= number_to_currency(product.price) %></p>
+    <% if product.image.attached? %>
+      <%= image_tag product.image, style: "width: 100px;" %>
+    <% end %>
+    <p>Posted by: <%= product.user.name %></p>
+  </div>
+<% end %>
+
+<%= link_to 'New Product', new_product_path %>
+
+<%
+=begin%>
+ <div id="products">
   <% @products.each do |product| %>
     <%= render product %>
     <p>
@@ -13,4 +29,6 @@
   <% end %>
 </div>
 
-<%= link_to "New product", new_product_path %>
+<%= link_to "New product", new_product_path %> 
+<%
+=end%>
