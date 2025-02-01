@@ -12,6 +12,7 @@
     <% if product.image.attached? %>
       <%= image_tag product.image, style: "width: 100px;" %>
     <% end %>
+    <%= button_to 'Add to Cart', add_item_cart_path(product_id: product.id), method: :post %>
     <p>Posted by: <%= product.user.name %></p>
   </div>
 <% end %>
