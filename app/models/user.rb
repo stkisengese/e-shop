@@ -6,4 +6,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
+
+  # Add association with products
+  has_many :products, dependent: :destroy
 end
