@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   # config/routes.rb
 
-  root "home#index"
+  root "products#index"
   
   devise_for :users, controllers: {
     registrations: 'users/registrations'
