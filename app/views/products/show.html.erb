@@ -13,3 +13,8 @@
   <%= image_tag @product.image, style: "width: 200px; display: block" %>
 <% end %>
 
+<% if current_user == @product.user %>
+  <%= link_to 'Edit', edit_product_path(@product) %>
+  <%= link_to 'Delete', product_path(@product), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
+
