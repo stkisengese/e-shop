@@ -24,14 +24,6 @@
   </head>
 
   <body>
-    <%
-=begin%>
- <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-
-    <%= yield %> 
-<%
-=end%>
     <header>
       <nav>
         <%= link_to "Shop", root_path, class: "site-title" %>
@@ -44,8 +36,8 @@
             <%= link_to "Sign In", new_user_session_path %>
             <%= link_to "Sign Up", new_user_registration_path %>
           <% end %>
-          <%= link_to cart_path do %>
-            Cart (<%= @cart.line_items.sum(:quantity) %>)
+          <%= link_to cart_path(@cart), class: 'cart-link' do %>
+             🛒 (<%= @cart.line_items.sum(:quantity) %>)
           <% end %>
         </div>
       </nav>
