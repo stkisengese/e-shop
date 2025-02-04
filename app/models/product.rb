@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :destroy
 
   # Validations
+  validate :acceptable_image
   validates :title, presence: true
   validates :brand, presence: true
   validates :model, presence: true
@@ -20,4 +21,17 @@ class Product < ApplicationRecord
   scope :price_range, ->(min, max) { 
     where('price BETWEEN ? AND ?', min, max) if min.present? && max.present? 
   }
+
+  def acceptable_image
+    return unless image.attached?
+
+    unless image.blob.byte_size <= 5.megabyte
+      errors.add(:image, "is too big (maximum is 5MB)")
+    end
+
+    acceptable_types = ["image/jpeg", "image/png"]
+    unless acceptable_types.include?(image.content_type)
+      errors.add(:image, "must be a JPEG or PNG")
+    end
+  end
 end
