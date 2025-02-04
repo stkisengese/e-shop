@@ -1,4 +1,6 @@
-<p style="color: green"><%= notice %></p>
+<%
+=begin%>
+ <p style="color: green"><%= notice %></p>
 
 <%= render @product %>
 
@@ -17,4 +19,37 @@
   <%= link_to 'Edit', edit_product_path(@product) %>
   <%= link_to 'Delete', product_path(@product), method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
+ 
+<%
+=end%>
 
+<article>
+  <h1><%= @product.title %></h1>
+  
+  <div>
+    <strong>Brand:</strong> <%= @product.brand %><br>
+    <strong>Model:</strong> <%= @product.model %><br>
+    <strong>Condition:</strong> <%= @product.condition %><br>
+    <strong>Color:</strong> <%= @product.color %><br>
+    <strong>Price:</strong> $<%= number_with_precision(@product.price, precision: 2) %><br>
+    <strong>Seller:</strong> <%= @product.user.name %>
+  </div>
+
+  <% if @product.image.attached? %>
+    <%= image_tag @product.image %>
+  <% end %>
+
+  <h2>Description</h2>
+  <p><%= @product.description %></p>
+
+  <%= button_to 'Add to Cart', 
+  add_item_cart_path(product_id: @product) %>
+
+  <% if user_signed_in? && @product.user == current_user %>
+    <%= link_to 'Edit Product', edit_product_path(@product) %>
+    <%= link_to 'Delete Product', product_path(@product), 
+        data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+  <% end %>
+
+  <%= link_to 'Back to Products', products_path %>
+</article>
