@@ -76,7 +76,7 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.expect(product: [ :title, :price, :model, :description, :brand, :color, :condition, :user_id, :image])
+    params.expect(product: [ :title, :price, :model, :description, :brand, :color, :condition, :image])
   end
 
   def authorize_user
