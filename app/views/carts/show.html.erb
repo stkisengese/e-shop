@@ -15,4 +15,64 @@
   <%= link_to 'Continue Shopping', root_path %>
 <% else %>
   <p>Your cart is empty.</p>
+
+
+<%
+=begin%>
+ <!-- app/views/carts/show.html.erb -->
+<article>
+  <h1>Your Cart</h1>
+
+  <% if @cart.line_items.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cart.line_items.each do |item| %>
+          <tr>
+            <td>
+              <% if item.product.image.attached? %>
+                <%= image_tag item.product.image, size: '50x50' %>
+              <% end %>
+              <%= item.product.title %>
+            </td>
+            <td><%= item.quantity %></td>
+            <td>$<%= number_with_precision(item.product.price, precision: 2) %></td>
+            <td>$<%= number_with_precision(item.total_price, precision: 2) %></td>
+            <td>
+              <%= button_to 'Remove', line_item_path(item), 
+                  method: :delete, 
+                  data: { confirm: 'Are you sure?' } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>Total:</strong></td>
+          <td>$<%= number_with_precision(@cart.total_price, precision: 2) %></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <%= button_to 'Empty Cart', cart_path(@cart), 
+        method: :delete, 
+        data: { confirm: 'Are you sure?' } %>
+  <% else %>
+    <p>Your cart is empty</p>
+  <% end %>
+
+  <%= link_to 'Continue Shopping', products_path %>
+</article> 
+<%
+=end%>
+
 <% end %>

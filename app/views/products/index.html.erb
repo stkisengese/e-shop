@@ -1,4 +1,6 @@
-<p style="color: green"><%= notice %></p>
+<%
+=begin%>
+ <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Products" %>
 
@@ -18,18 +20,67 @@
 <% end %>
 
 <%= link_to 'New Product', new_product_path %>
-
-<%
-=begin%>
- <div id="products">
-  <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New product", new_product_path %> 
+ 
 <%
 =end%>
+<!-- app/views/products/index.html.erb -->
+<article>
+  <h1>Products</h1>
+
+  <%= link_to 'New Product', new_product_path if user_signed_in? %>
+
+  <!-- Optional Filtering Form -->
+  <%= form_tag products_path, method: :get do %>
+    <div>
+      <%= select_tag :brand, 
+          options_for_select(['', 'Apple', 'Samsung', 'Dell', 'Nike', 'Adidas'], 
+          selected: params[:brand]), 
+          prompt: 'Select Brand' %>
+      
+      <%= select_tag :condition, 
+          options_for_select(['', 'New', 'Used', 'Refurbished'], 
+          selected: params[:condition]), 
+          prompt: 'Select Condition' %>
+      
+      <%= number_field_tag :min_price, params[:min_price], placeholder: 'Min Price' %>
+      <%= number_field_tag :max_price, params[:max_price], placeholder: 'Max Price' %>
+      
+      <%= submit_tag 'Filter' %>
+    </div>
+  <% end %>
+
+  <% if @products.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Price</th>
+          <th>Seller</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= link_to product.title, product_path(product) %></td>
+            <td><%= product.brand %></td>
+            <td><%= product.model %></td>
+            <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+            <td><%= product.user.name %></td>
+            <td>
+              <% if user_signed_in? && product.user == current_user %>
+                <%= link_to 'Edit', edit_product_path(product) %>
+                <%= link_to 'Delete', product_path(product), 
+                    data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No products available.</p>
+  <% end %>
+</article>
