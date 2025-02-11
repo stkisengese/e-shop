@@ -1,9 +1,13 @@
 ARG RUBY_VERSION=3.4.1
 FROM ruby:${RUBY_VERSION}-slim
 
+# Switch to root for installation
+USER root
+
 # Install development dependencies
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
+RUN set -eux; \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
     build-essential \
     git \
     libvips \
@@ -13,15 +17,15 @@ RUN apt-get update -qq && \
     curl \
     nodejs \
     npm \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install yarn
 RUN npm install -g yarn
 
 # Configure bundler
-ENV BUNDLE_PATH=/usr/local/bundle
-ENV BUNDLE_BIN=/usr/local/bundle/bin
-ENV PATH="${BUNDLE_BIN}:${PATH}"
+ENV BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_BIN=/usr/local/bundle/bin \
+    PATH="${BUNDLE_BIN}:${PATH}"
 
 WORKDIR /rails
 
@@ -31,5 +35,8 @@ RUN gem install \
     rubocop \
     ruby-debug-ide \
     debase
+
+# Switch back to non-root user
+USER 1000:1000
 
 CMD ["bash"]
