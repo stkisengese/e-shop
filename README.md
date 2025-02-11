@@ -62,6 +62,20 @@ rails s
 
 Visit http://localhost:3000 in your browser.
 
+## Docker run Set-up
+
+```bash
+# Build the development image
+docker build -t myapp-dev -f .docker/Dockerfile.dev .
+
+# Run the container
+docker run -it --rm \
+  -v $(pwd):/rails \
+  -v bundle:/usr/local/bundle \
+  -p 3000:3000 \
+  myapp-dev
+```
+
 ## Usage
 Sign Up
 
