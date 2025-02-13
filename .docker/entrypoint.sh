@@ -6,11 +6,11 @@ rm -f /rails/tmp/pids/server.pid
 
 # Migrate the database (only if there are pending migrations)
 echo "Running database migrations..."
-ruby/rails db:migrate
+rails db:migrate
 
 # Seed the database (this can always be safely run)
 echo "Seeding the database..."
-ruby/rails db:seed
+rails db:seed
 
 # Then exec the container's main process (what's set as CMD in the Dockerfile)
 exec "$@"
