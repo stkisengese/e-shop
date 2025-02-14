@@ -21,4 +21,18 @@ class CartsController < ApplicationController
       @cart.line_items.destroy_all
       redirect_to root_path, notice: "Cart emptied."
     end
+
+    def update_quantity
+      product = Product.find(params[:product_id])
+      case params[:change]
+      when 'increase'
+        @cart.add_item(product)
+      when 'decrease'
+        @cart.decrease_quantity(product)
+      end
+      
+      respond_to do |format|
+        format.html { redirect_to cart_path, notice: 'Cart updated' }
+        format.turbo_stream
+      end
   end
