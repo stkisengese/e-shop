@@ -60,8 +60,8 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center mt-4">
-      <%= button_to empty_cart_cart_path, 
-          method: :delete, 
+      <%= button_to empty_cart_path, 
+          method: :delete,
           class: "btn btn-danger",
           data: { turbo_confirm: 'Are you sure?' } do %>
         <i class="bi bi-trash"></i> Empty Cart
