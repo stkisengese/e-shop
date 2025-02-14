@@ -14,4 +14,14 @@ class Cart < ApplicationRecord
   def total_price
     line_items.sum { |item| item.product.price * item.quantity }
   end
+
+  def decrease_quantity(product)
+    line_item = line_items.find_by(product: product)
+    if line_item
+      if line_item.quantity > 1
+        line_item.update(quantity: line_item.quantity - 1)
+      else
+        line_item.update(quantity: 1)
+      end
+    end
 end
