@@ -24,4 +24,5 @@ class Cart < ApplicationRecord
         line_item.update(quantity: 1)
       end
     end
+  end
 end
