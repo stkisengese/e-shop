@@ -1,55 +1,84 @@
-<%
-=begin%>
- <p style="color: green"><%= notice %></p>
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to 'Products', products_path %></li>
+      <li class="breadcrumb-item active"><%= @product.title %></li>
+    </ol>
+  </nav>
 
-<%= render @product %>
+  <div class="row">
+    <!-- Product Image -->
+    <div class="col-md-6 mb-4">
+      <% if @product.image.attached? %>
+        <%= image_tag @product.image, class: "img-fluid rounded shadow" %>
+      <% else %>
+        <div class="bg-light rounded text-center py-5">
+          <i class="bi bi-image text-secondary" style="font-size: 5rem;"></i>
+        </div>
+      <% end %>
+    </div>
 
-<div>
-  <%= link_to "Edit this product", edit_product_path(@product) %> |
-  <%= link_to "Back to products", products_path %>
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <h1 class="mb-3"><%= @product.title %></h1>
+      <div class="mb-4">
+        <h2 class="h4 text-primary mb-3">$<%= number_with_precision(@product.price, precision: 2) %></h2>
+        
+        <div class="d-grid gap-2 mb-4">
+          <%= button_to add_item_cart_path(product_id: @product), 
+              method: :post,
+              class: "btn btn-primary btn-lg" do %>
+            <i class="bi bi-cart-plus"></i> Add to Cart
+          <% end %>
+        </div>
 
-  <%= button_to "Destroy this product", @product, method: :delete %>
-</div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <table class="table table-borderless mb-0">
+              <tr>
+                <td class="text-muted">Brand:</td>
+                <td><strong><%= @product.brand %></strong></td>
+              </tr>
+              <tr>
+                <td class="text-muted">Model:</td>
+                <td><strong><%= @product.model %></strong></td>
+              </tr>
+              <tr>
+                <td class="text-muted">Condition:</td>
+                <td><strong><%= @product.condition %></strong></td>
+              </tr>
+              <tr>
+                <td class="text-muted">Color:</td>
+                <td><strong><%= @product.color %></strong></td>
+              </tr>
+              <tr>
+                <td class="text-muted">Seller:</td>
+                <td><strong><%= @product.user.name %></strong></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
 
-<% if @product.image.attached? %>
-  <%= image_tag @product.image, style: "width: 200px; display: block" %>
-<% end %>
+      <!-- Description -->
+      <div class="mb-4">
+        <h3 class="h5 mb-3">Description</h3>
+        <p class="text-muted"><%= @product.description %></p>
+      </div>
 
-<% if current_user == @product.user %>
-  <%= link_to 'Edit', edit_product_path(@product) %>
-  <%= link_to 'Delete', product_path(@product), method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
- 
-<%
-=end%>
-
-<article>
-  <h1><%= @product.title %></h1>
-  
-  <div>
-    <strong>Brand:</strong> <%= @product.brand %><br>
-    <strong>Model:</strong> <%= @product.model %><br>
-    <strong>Condition:</strong> <%= @product.condition %><br>
-    <strong>Color:</strong> <%= @product.color %><br>
-    <strong>Price:</strong> $<%= number_with_precision(@product.price, precision: 2) %><br>
-    <strong>Seller:</strong> <%= @product.user.name %>
+      <!-- Action Buttons -->
+      <% if user_signed_in? && @product.user == current_user %>
+        <div class="d-flex gap-2">
+          <%= link_to edit_product_path(@product), class: "btn btn-outline-primary" do %>
+            <i class="bi bi-pencil"></i> Edit
+          <% end %>
+          <%= link_to product_path(@product),
+              data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
+              class: "btn btn-outline-danger" do %>
+            <i class="bi bi-trash"></i> Delete
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <% if @product.image.attached? %>
-    <%= image_tag @product.image %>
-  <% end %>
-
-  <h2>Description</h2>
-  <p><%= @product.description %></p>
-
-  <%= button_to 'Add to Cart', 
-  add_item_cart_path(product_id: @product) %>
-
-  <% if user_signed_in? && @product.user == current_user %>
-    <%= link_to 'Edit Product', edit_product_path(@product) %>
-    <%= link_to 'Delete Product', product_path(@product), 
-        data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
-  <% end %>
-
-  <%= link_to 'Back to Products', products_path %>
-</article>
+</div>
