@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     post 'add_item/:product_id', to: 'carts#add_item', as: 'add_item'
     delete 'remove_item/:product_id', to: 'carts#remove_item', as: 'remove_item'
     delete 'empty', to: 'carts#empty_cart', as: 'empty'
+    patch 'update_quantity'
   end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
