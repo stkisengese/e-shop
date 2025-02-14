@@ -19,6 +19,6 @@ class CartsController < ApplicationController
   
     def empty_cart
       @cart.line_items.destroy_all
-      redirect_to cart_path, notice: "Cart emptied."
+      redirect_to root_path, notice: "Cart emptied."
     end
   end
