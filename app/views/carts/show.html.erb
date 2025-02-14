@@ -1,78 +1,70 @@
-<h1>Your Cart</h1>
+<div class="container">
+  <h1 class="display-4 mb-4">Your Cart</h1>
+  
+  <% if @cart.line_items.any? %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @cart.line_items.each do |item| %>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <% if item.product.image.attached? %>
+                    <%= image_tag item.product.image, class: "me-3", style: "width: 50px; height: 50px; object-fit: cover;" %>
+                  <% end %>
+                  <%= item.product.title %>
+                </div>
+              </td>
+              <td>$<%= number_with_precision(item.product.price, precision: 2) %></td>
+              <td><%= item.quantity %></td>
+              <td>$<%= number_with_precision(item.total_price, precision: 2) %></td>
+              <td>
+                <%= button_to remove_item_cart_path(product_id: item.product.id), 
+                    method: :delete,
+                    class: "btn btn-outline-danger btn-sm" do %>
+                  <i class="bi bi-trash"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+            <td><strong>$<%= number_with_precision(@cart.total_price, precision: 2) %></strong></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
-<% if @cart.line_items.any? %>
-  <% @cart.line_items.each do |item| %>
-    <div>
-      <h3><%= item.product.title %></h3>
-      <p>Quantity: <%= item.quantity %></p>
-      <p>Price: <%= number_to_currency(item.product.price * item.quantity) %></p>
-      <%= button_to 'Remove', remove_item_cart_path(product_id: item.product.id), method: :delete %>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <%= button_to cart_path, 
+          method: :delete, 
+          class: "btn btn-danger",
+          data: { confirm: 'Are you sure?' } do %>
+        <i class="bi bi-trash"></i> Empty Cart
+      <% end %>
+      <%= link_to root_path, class: "btn btn-primary" do %>
+        <i class="bi bi-arrow-left"></i> Continue Shopping
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-5">
+      <i class="bi bi-cart text-muted" style="font-size: 4rem;"></i>
+      <h3 class="mt-3">Your cart is empty</h3>
+      <%= link_to root_path, class: "btn btn-primary mt-3" do %>
+        <i class="bi bi-arrow-left"></i> Continue Shopping
+      <% end %>
     </div>
   <% end %>
-
-  <p>Total: <%= number_to_currency(@cart.total_price) %></p>
-  <%= button_to 'Empty Cart', cart_path, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <%= link_to 'Continue Shopping', root_path %>
-<% else %>
-  <p>Your cart is empty.</p>
-
-
-<%
-=begin%>
- <!-- app/views/carts/show.html.erb -->
-<article>
-  <h1>Your Cart</h1>
-
-  <% if @cart.line_items.any? %>
-    <table>
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Total</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @cart.line_items.each do |item| %>
-          <tr>
-            <td>
-              <% if item.product.image.attached? %>
-                <%= image_tag item.product.image, size: '50x50' %>
-              <% end %>
-              <%= item.product.title %>
-            </td>
-            <td><%= item.quantity %></td>
-            <td>$<%= number_with_precision(item.product.price, precision: 2) %></td>
-            <td>$<%= number_with_precision(item.total_price, precision: 2) %></td>
-            <td>
-              <%= button_to 'Remove', line_item_path(item), 
-                  method: :delete, 
-                  data: { confirm: 'Are you sure?' } %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="3"><strong>Total:</strong></td>
-          <td>$<%= number_with_precision(@cart.total_price, precision: 2) %></td>
-          <td></td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <%= button_to 'Empty Cart', cart_path(@cart), 
-        method: :delete, 
-        data: { confirm: 'Are you sure?' } %>
-  <% else %>
-    <p>Your cart is empty</p>
-  <% end %>
-
-  <%= link_to 'Continue Shopping', products_path %>
-</article> 
-<%
-=end%>
-
-<% end %>
+</div>
