@@ -1,66 +1,87 @@
-<%= form_with(model: product) do |form| %>
-  <% if product.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+<div class="card">
+  <div class="card-body">
+    <%= form_with(model: product, class: "needs-validation") do |form| %>
+      <% if product.errors.any? %>
+        <div class="alert alert-danger">
+          <h4 class="alert-heading"><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h4>
+          <ul class="mb-0">
+            <% product.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-      <ul>
-        <% product.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <%= form.label :title, class: "form-label" %>
+            <%= form.text_field :title, class: "form-control", required: true %>
+          </div>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+          <div class="mb-3">
+            <%= form.label :brand, class: "form-label" %>
+            <%= form.select :brand, 
+                ['Apple', 'Samsung', 'Dell', 'Nike', 'Adidas'], 
+                { prompt: 'Select Brand' }, 
+                { class: "form-select", required: true } %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :model, class: "form-label" %>
+            <%= form.text_field :model, class: "form-control", required: true %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :price, class: "form-label" %>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <%= form.number_field :price, class: "form-control", step: "0.01", min: "0", required: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <%= form.label :condition, class: "form-label" %>
+            <%= form.select :condition, 
+                ['New', 'Used', 'Refurbished'], 
+                { prompt: 'Select Condition' }, 
+                { class: "form-select", required: true } %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :color, class: "form-label" %>
+            <%= form.text_field :color, class: "form-control", required: true %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :image, class: "form-label" %>
+            <div class="input-group">
+              <%= form.file_field :image, 
+                  class: "form-control", 
+                  accept: 'image/png,image/jpeg,image/jpg',
+                  data: { 
+                    max_file_size: 5.megabytes,
+                    allowed_file_types: 'image/png,image/jpeg,image/jpg'
+                  } %>
+            </div>
+            <small class="text-muted">Accepted formats: PNG, JPEG, JPG (max 5MB)</small>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="mb-3">
+            <%= form.label :description, class: "form-label" %>
+            <%= form.text_area :description, class: "form-control", rows: 4, required: true %>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <%= link_to "Cancel", products_path, class: "btn btn-outline-secondary" %>
+        <%= form.submit class: "btn btn-primary" %>
+      </div>
+    <% end %>
   </div>
-
-  <div>
-    <%= form.label :price, style: "display: block" %>
-    <%= form.text_field :price %>
-  </div>
-
-  <div>
-    <%= form.label :model, style: "display: block" %>
-    <%= form.text_field :model %>
-  </div>
-
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description %>
-  </div>
-
-  <div>
-    <%= form.label :brand, style: "display: block" %>
-    <%= form.text_field :brand %>
-  </div>
-
-  <div>
-    <%= form.label :color, style: "display: block" %>
-    <%= form.text_field :color %>
-  </div>
-
-  <div>
-    <%= form.label :condition, style: "display: block" %>
-    <%= form.text_field :condition %>
-  </div>
-
-  <%
-=begin%>
- <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div> 
-<%
-=end%>
-
-  <div class="field">
-    <%= form.label :image %>
-    <%= form.file_field :image, accept: 'image/png,image/jpeg' %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
