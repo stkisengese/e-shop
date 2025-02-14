@@ -25,7 +25,19 @@
                 </div>
               </td>
               <td>$<%= number_with_precision(item.product.price, precision: 2) %></td>
-              <td><%= item.quantity %></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <%= button_to "-", update_quantity_cart_path(product_id: item.product.id, change: 'decrease'),
+                      method: :patch,
+                      class: "btn btn-outline-secondary btn-sm",
+                      form_class: "d-inline" %>
+                  <span class="mx-2"><%= item.quantity %></span>
+                  <%= button_to "+", update_quantity_cart_path(product_id: item.product.id, change: 'increase'),
+                      method: :patch,
+                      class: "btn btn-outline-secondary btn-sm",
+                      form_class: "d-inline" %>
+                </div>
+              </td>
               <td>$<%= number_with_precision(item.total_price, precision: 2) %></td>
               <td>
                 <%= button_to remove_item_cart_path(product_id: item.product.id), 
@@ -51,7 +63,7 @@
       <%= button_to cart_path, 
           method: :delete, 
           class: "btn btn-danger",
-          data: { confirm: 'Are you sure?' } do %>
+          data: { turbo_confirm: 'Are you sure?' } do %>
         <i class="bi bi-trash"></i> Empty Cart
       <% end %>
       <%= link_to root_path, class: "btn btn-primary" do %>
