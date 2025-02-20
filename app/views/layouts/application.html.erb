@@ -112,9 +112,8 @@
         </div>
       </nav>
     </header>
-
-    <main>
-      <div class="flash-messages position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    
+    <div class="flash-messages position-fixed top-0 end-0 p-3" style="z-index: 1050;">
       <%# <div class="container mt-4"> %>
         <% if notice %>
           <div class="alert alert-success alert-dismissible fade show alert-fade" role="alert">
@@ -130,9 +129,9 @@
           </div>
         <% end %>
 
-        <%= yield %>
       </div>
-    
+    <main>
+      <%= yield %>
     </main>
 
     <footer class="footer mt-auto py-3 bg-light">
