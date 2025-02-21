@@ -40,10 +40,21 @@
       /* Navbar styles */
       .navbar-brand {
         font-weight: bold;
+        font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+        font-size: 3.1rem;
+        letter-spacing: -8px;
+        font-style: italic;
       }
 
       .nav-link {
         position: relative;
+        font-size: 1.2rem; /* Increase icon size */
+        transition: transform 0.2s ease-in-out;   
+      }
+
+      .nav-link:hover i {
+        transform: scale(1.2); /* Enlarge icon on hover */
+        color: #007bff; /* Change icon color on hover */
       }
 
       .cart-badge {
@@ -64,7 +75,7 @@
 
       /* Auth form styles */
       .auth-form {
-        max-width: 450px;
+        max-width: 750px;
         margin: 2rem auto;
       }
 
@@ -77,32 +88,74 @@
         background-color: white;
         border-bottom: 2px solid #f8f9fa;
       }
+
+       /* Add background image to the header */
+    body {
+      background-image: url('<%= asset_path('bg-flatphone.jpg') %>');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+      padding-top: 140px; 
+      padding-bottom: 70px
+      <%# color: white; /* Make sure text is readable on top of the image */ %>
+    } 
+    header {
+      background-image: url('<%= asset_path('bg-header.jpg') %>');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
     </style>
   </head>
 
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-        <div class="container">
-          <%= link_to "Shop", root_path, class: "navbar-brand ms-0" %>
+      <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light mb-4 py-4">
+        <div class="container bg-warning">
+          <%= link_to "MyShop", root_path, class: "navbar-brand ms-5" %>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
           </button>
           
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
-              <% if user_signed_in? %>
-                <li class="nav-item"><span class="nav-link">Welcome, <%= current_user.name %></span></li>
-                <li class="nav-item"><%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link" %></li>
-                <li class="nav-item"><%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger ms-2" %></li>
-              <% else %>
-                <li class="nav-item"><%= link_to "Sign In", new_user_session_path, class: "nav-link" %></li>
-                <li class="nav-item"><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></li>
-              <% end %>
+              <li class="nav-item dropdown">
+                <% if user_signed_in? %>
+                  <!-- Logged in user -->
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Welcome, <%= current_user.name %>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><%= link_to edit_user_registration_path, class: "dropdown-item" do %>
+                      <i class="fa fa-user-circle me-2"></i>Edit Profile
+                    <% end %></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item" do %>
+                      <i class="fa fa-sign-out-alt me-2"></i>Sign Out
+                    <% end %></li>
+                  </ul>
+                <% else %>
+                  <!-- Not logged in -->
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Account
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><%= link_to new_user_session_path, class: "dropdown-item" do %>
+                      <i class="fa fa-sign-in-alt me-2"></i>Sign In
+                    <% end %></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><%= link_to new_user_registration_path, class: "dropdown-item" do %>
+                      <i class="fa fa-user-plus me-2"></i>Sign Up
+                    <% end %></li>
+                  </ul>
+                <% end %>
+              </li>
+
+              <!-- Cart -->
               <li class="nav-item ms-2">
                 <%= link_to cart_path(@cart), class: 'nav-link position-relative' do %>
-                  <i class="bi bi-cart fs-2"></i>
-                  <span class="position-absolute top-50 start-50 translate-middle-y badge rounded-pill bg-danger">
+                  <i class="bi bi-cart fs-2"></i> Cart  
+                  <span class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-danger">
                     <%= @cart.line_items.sum(:quantity) %>
                   </span>
                 <% end %>
@@ -113,11 +166,12 @@
       </nav>
     </header>
 
-    <main>
-      <div class="flash-messages position-fixed top-0 end-0 p-3" style="z-index: 1050;">
-      <%# <div class="container mt-4"> %>
+ 
+    <div class="flash-messages position-fixed top-0 start-50 translate-middle-x p-5 w-50" style="z-index: 1050;">
+      
         <% if notice %>
           <div class="alert alert-success alert-dismissible fade show alert-fade" role="alert">
+          <i class="fas fa-check-circle me-2"></i>
             <%= notice %>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
           </div>
@@ -126,16 +180,17 @@
         <% if alert %>
           <div class="alert alert-danger alert-dismissible fade show alert-fade" role="alert">
             <%= alert %>
+            <i class="fas fa-check-circle me-2"></i>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
           </div>
         <% end %>
 
+    </div>
+    <main class="">
         <%= yield %>
-      </div>
-    
     </main>
 
-    <footer class="footer mt-auto py-3 bg-light">
+    <footer class="footer py-0 bg-light fixed-bottom">
       <div class="container text-center">
         <p class="text-muted">&copy; <%= Time.current.year %> Shop. All rights reserved.</p>
       </div>
