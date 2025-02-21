@@ -33,7 +33,7 @@ products_data = [
     description: "Good watch for men!",
     condition: "Mint",
     color: "Black",
-    price: 100,
+    price: 10000,
     image_filename: "fossil.jpg"
   },
   {
@@ -43,7 +43,7 @@ products_data = [
     description: "Cool red car",
     condition: "Excellent",
     color: "Red",
-    price: 15000,
+    price: 1500000,
     image_filename: "opel.jpeg"
   },
   {
@@ -51,9 +51,9 @@ products_data = [
     brand: "Ferrari",
     model: "F12",
     description: "Cool sports car",
-    condition: "New",
+    condition: "Used",
     color: "Black",
-    price: 160000,
+    price: 16000000,
     image_filename: "ferrari.jpeg"
   },
   {
@@ -63,7 +63,7 @@ products_data = [
     description: "The Lenovo ThinkPad X1 Carbon Touch is an incredibly thin and light business ultrabook that features a premium design with a 14-inch touch.",
     condition: "Used",
     color: "Black",
-    price: 500,
+    price: 50000,
     image_filename: "computer.jpg"
   }
 ]
