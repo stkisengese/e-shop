@@ -24,7 +24,7 @@
                   <%= item.product.title %>
                 </div>
               </td>
-              <td>$<%= number_with_precision(item.product.price, precision: 2) %></td>
+              <td>KES <%= number_with_precision(item.product.price, precision: 2) %></td>
               <td>
                 <div class="d-flex align-items-center">
                   <%= button_to "-", decrease_quantity_cart_path(product_id: item.product.id),
@@ -38,12 +38,12 @@
                       form_class: "d-inline" %>
                 </div>
               </td>
-              <td>$<%= number_with_precision(item.total_price, precision: 2) %></td>
+              <td>KES <%= number_with_precision(item.total_price, precision: 2) %></td>
               <td>
                 <%= button_to remove_item_cart_path(product_id: item.product.id), 
                     method: :delete,
                     class: "btn btn-outline-danger btn-sm" do %>
-                  <i class="bi bi-trash"></i>
+                  <i class="bi bi-trash"></i> Remove
                 <% end %>
               </td>
             </tr>
@@ -52,7 +52,7 @@
         <tfoot>
           <tr>
             <td colspan="3" class="text-end"><strong>Total:</strong></td>
-            <td><strong>$<%= number_with_precision(@cart.total_price, precision: 2) %></strong></td>
+            <td><strong>KES <%= number_with_precision(@cart.total_price, precision: 2) %></strong></td>
             <td></td>
           </tr>
         </tfoot>
