@@ -1,12 +1,32 @@
 <% content_for :title, "Editing product" %>
 
-<h1>Editing product</h1>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><%= link_to 'Products', products_path %></li>
+          <li class="breadcrumb-item active">Editing product</li>
+        </ol>
+      </nav>
 
-<%= render "form", product: @product %>
+      <div class="card mb-4">
+        <div class="card-header">
+          <h1 class="h3 mb-0">Editing product</h1>
+        </div>
+        
+        <div class="card-body">
+          <%= render "form", product: @product %>
+        </div>
 
-<br>
+      </div>
+      <br>
 
-<div>
-  <%= link_to "Show this product", @product %> |
-  <%= link_to "Back to products", products_path %>
+        <div>
+          <%= link_to "Show this product", @product %> |
+          <%= link_to "Back to products", products_path %>
+        </div>
+
+    </div>
+  </div>
 </div>
