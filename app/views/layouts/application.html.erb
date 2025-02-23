@@ -67,7 +67,7 @@
 
       .nav-link:hover i {
         transform: scale(1.2);
-        color: #007bff; 
+        color:rgb(43, 113, 204); 
       }
 
       .cart-badge {
@@ -92,7 +92,7 @@
         margin: 2rem auto;
       }
 
-      .auth-form .card {
+      .card {
           border: none;
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
           background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
@@ -102,7 +102,7 @@
       }
 
       .auth-link {
-        color: white;
+        color: #007bff;
         text-decoration: none; /* Remove underline */
         font-weight: bold;
         transition: color 0.3s ease;
@@ -113,7 +113,8 @@
      }
 
      .auth-link.forgot:hover {
-      color: blue;
+      color: #ffc107;
+      font: underline;
      }
 
     .auth-link:hover {
@@ -212,13 +213,23 @@
 
               <!-- Cart -->
               <li class="nav-item ms-2">
-                <%= link_to cart_path(@cart), class: 'nav-link position-relative' do %>
-                  <i class="bi bi-cart fs-2"></i> Cart  
-                  <span class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-danger">
-                    <%= @cart.line_items.sum(:quantity) %>
-                  </span>
+                <% if user_signed_in? %>
+                  <%= link_to cart_path(@cart), class: 'nav-link position-relative' do %>
+                    <i class="bi bi-cart fs-2"></i> Cart  
+                    <span class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-danger">
+                      <%= @cart.line_items.sum(:quantity) %>
+                    </span>
+                  <% end %>
+                <% else %>
+                    <%= link_to new_user_session_path, class: 'nav-link position-relative' do %>
+                    <i class="bi bi-cart fs-2"></i> Cart  
+                    <span class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-danger">
+                      <%= @cart.line_items.sum(:quantity) %>
+                    </span>
+                  <% end %>
                 <% end %>
               </li>
+
             </ul>
           </div>
         </div>
