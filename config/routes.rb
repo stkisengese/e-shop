@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show, :destroy] do
     post 'add_item/:product_id', to: 'carts#add_item', as: 'add_item'
+    post 'add_item_cart/:product_id', to: 'carts#add_item_cart', as: 'add_item_cart'
     delete 'remove_item/:product_id', to: 'carts#remove_item', as: 'remove_item'
     delete 'empty_cart', to: 'carts#empty_cart', as: 'empty'
     patch 'decrease_quantity'
