@@ -20,7 +20,7 @@ class CartsController < ApplicationController
   def remove_item
     product = Product.find(params[:product_id])
     @cart.line_items.find_by(product: product).destroy
-    redirect_to cart_path, notice: "Product removed from cart."
+    redirect_to cart_path, notice: "Product removed from your cart."
   end
 
   def empty_cart
