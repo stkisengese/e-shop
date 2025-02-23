@@ -8,6 +8,12 @@ class CartsController < ApplicationController
   def add_item
     product = Product.find(params[:product_id])
     @cart.add_product(product)
+    redirect_to root_path, notice: "Product added to cart."
+  end
+
+  def add_item_cart
+    product = Product.find(params[:product_id])
+    @cart.add_product(product)
     redirect_to cart_path, notice: "Product added to cart."
   end
 
