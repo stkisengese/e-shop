@@ -8,19 +8,19 @@ class CartsController < ApplicationController
   def add_item
     product = Product.find(params[:product_id])
     @cart.add_product(product)
-    redirect_to root_path, notice: "Product added to cart."
+    redirect_to root_path, notice: "Added to your cart."
   end
 
   def add_item_cart
     product = Product.find(params[:product_id])
     @cart.add_product(product)
-    redirect_to cart_path, notice: "Product added to cart."
+    redirect_to cart_path, notice: "Added to your cart."
   end
 
   def remove_item
     product = Product.find(params[:product_id])
     @cart.line_items.find_by(product: product).destroy
-    redirect_to cart_path, notice: "Product removed from your cart."
+    redirect_to cart_path, notice: "Removed from your cart."
   end
 
   def empty_cart
