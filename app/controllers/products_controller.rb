@@ -13,6 +13,9 @@ class ProductsController < ApplicationController
     @products = @products.by_brand(params[:brand]) if params[:brand].present?
     @products = @products.by_condition(params[:condition]) if params[:condition].present?
     @products = @products.price_range(params[:min_price], params[:max_price]) if params[:min_price].present? && params[:max_price].present?
+
+    # Order products by creation date (newest first)
+    @products = @products.order(created_at: :desc)
   end
 
   # GET /products/1 or /products/1.json
