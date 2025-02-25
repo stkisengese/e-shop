@@ -21,10 +21,7 @@
 
           <div class="mb-3">
             <%= form.label :brand, class: "form-label" %>
-            <%= form.select :brand, 
-                ['Apple', 'Samsung', 'Dell', 'Nike', 'Adidas'], 
-                { prompt: 'Select Brand' }, 
-                { class: "form-select", required: true } %>
+            <%= form.text_field :brand, class: "form-control", required: true %>
           </div>
 
           <div class="mb-3">
