@@ -16,9 +16,15 @@
       <%= form_tag products_path, method: :get, class: "row g-3" do %>
         <div class="col-md-2">
           <%= select_tag :brand, 
-              options_for_select(['', 'Apple', 'Samsung', 'Dell', 'Nike', 'Adidas'], selected: params[:brand]),
+              options_for_select([['', 'Select Brand']] + Product.distinct.pluck(:brand).map { |brand| [brand, brand] }, selected: params[:brand]),
               class: "form-select",
               prompt: 'Select Brand' %>
+        </div>
+        <div class="col-md-2">
+          <%= text_field_tag :category, 
+              params[:category], 
+              class: "form-control", 
+              placeholder: "Search by Category" %>
         </div>
         <div class="col-md-2">
           <%= select_tag :condition,
