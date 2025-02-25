@@ -11,6 +11,12 @@ class ProductsController < ApplicationController
 
     # filtering
     @products = @products.by_brand(params[:brand]) if params[:brand].present?
+
+    # If "category" filter is present, search by both title and brand
+    if params[:category].present?
+      @products = @products.where("title LIKE ? OR brand LIKE ?", "%#{params[:category]}%", "%#{params[:category]}%")
+    end
+    
     @products = @products.by_condition(params[:condition]) if params[:condition].present?
     @products = @products.price_range(params[:min_price], params[:max_price]) if params[:min_price].present? && params[:max_price].present?
 
