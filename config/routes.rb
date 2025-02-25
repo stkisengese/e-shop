@@ -17,9 +17,9 @@ Rails.application.routes.draw do
     delete 'empty_cart', to: 'carts#empty_cart', as: 'empty'
     patch 'decrease_quantity'
   end
-
+  
   # Catch-all route for handling non-existent routes
-  match "*path", to: "application#render_404", via: :all
+  match "*path", to: "application#render_404", via: :all, constraints: lambda { |req| !req.path.start_with?('/assets') && !req.path.start_with?('/rails') }
 
   # Defines the root path route ("/")
   root "products#index"
